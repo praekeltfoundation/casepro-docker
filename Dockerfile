@@ -18,6 +18,7 @@ COPY settings.py casepro/settings.py
 
 RUN pip install -e . && \
     pip install -r pip-freeze.txt && \
+    pip install django-environ && \
     npm install -g less coffee-script
 
 ENV PROJECT_ROOT /casepro/

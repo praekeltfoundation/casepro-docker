@@ -5,21 +5,24 @@ import dj_database_url
 # import our default settings
 from casepro.settings_common import * # noqa
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'REPLACEME')
-if os.environ.get('DEBUG', 'False') == 'True':  # envvars are strings
-    DEBUG = True
-else:
-    DEBUG = False
+import environ
+
+env = environ.Env(DEBUG=(bool, False))
+# reading .env file
+environ.Env.read_env()
+
+DEBUG = False
+SECRET_KEY = env.str("SECRET_KEY", default='REPLACEME')
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_OFFLINE = True
 SEND_EMAILS = True
 
-HOSTNAME = os.environ.get('HOSTNAME', 'localhost:8000')
-SITE_HOST_PATTERN = os.environ.get('SITE_HOST_PATTERN', 'http://%s.localhost:8000')
+HOSTNAME = env.str('HOSTNAME', default='localhost:8000')
+SITE_HOST_PATTERN = env.str('SITE_HOST_PATTERN', default='http://%s.localhost:8000')
 
-SITE_API_HOST = os.environ.get('SITE_API_HOST', 'http://localhost:8001/')
+SITE_API_HOST = env.url('SITE_API_HOST', default='http://localhost:8001/')
 
-SENTRY_DSN = os.environ.get('SENTRY_DSN')
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -29,38 +32,38 @@ DATABASES = {
 }
 
 # SMTP Settings
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 25))
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_HOST = env.str('EMAIL_HOST', default='localhost')
+EMAIL_PORT = env.int('EMAIL_PORT', default=25)
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default='')
 
 # Time until a case is re-assigned (specified in minutes)
-case_response_required_time_str = os.environ.get(
-    'SITE_CASE_RESPONSE_REQUIRED_TIME')
-
-if case_response_required_time_str:
-    SITE_CASE_RESPONSE_REQUIRED_TIME = int(case_response_required_time_str)
+SITE_CASE_RESPONSE_REQUIRED_TIME = env.int(
+    'SITE_CASE_RESPONSE_REQUIRED_TIME', default=60)
 
 SITE_HIDE_CONTACT_FIELDS = ["name"]
-SITE_CONTACT_DISPLAY = os.environ.get('SITE_CONTACT_DISPLAY',
-                                      'name')
-SITE_MAX_MESSAGE_CHARS = 640  # the max value for this is 800
+SITE_CONTACT_DISPLAY = env.str('SITE_CONTACT_DISPLAY',
+                               default='name')
+SITE_MAX_MESSAGE_CHARS = env.int('SITE_MAX_MESSAGE_CHARS', default=640)
+# the max value for this is 800
 
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost:6379')
+REDIS_HOST = env.str('REDIS_HOST', default='localhost:6379')
+REDIS_PORT = env.int('REDIS_PORT', default=15)
 
-BROKER_URL = 'redis://%s/%d' % (REDIS_HOST, 10 if TESTING else 15)  # noqa TESTING defined in settings_common (flake8)
+BROKER_URL = 'redis://%s/%d' % (REDIS_HOST, REDIS_PORT)  # noqa TESTING defined in settings_common (flake8)
 CELERY_RESULT_BACKEND = BROKER_URL
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': '%s:15' % REDIS_HOST,
+        'LOCATION': '%s:%d' % (REDIS_HOST, REDIS_PORT),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }
 }
 
-if os.environ.get('USE_DEFAULT_CACHE', 'False') == 'True':
+USE_DEFAULT_CACHE = env.bool('USE_DEFAULT_CACHE', default=False)
+if USE_DEFAULT_CACHE:
     # Use Django's default cache
     CACHES = {
         'default': {
@@ -71,8 +74,7 @@ if os.environ.get('USE_DEFAULT_CACHE', 'False') == 'True':
 # settings_common currently defines Nyaruka contact details. We use sentry.
 ADMINS = []
 
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default='*').split(",")
 
 if SENTRY_DSN:
     INSTALLED_APPS += (
