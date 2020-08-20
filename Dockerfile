@@ -2,7 +2,7 @@ FROM praekeltfoundation/django-bootstrap:py3.6-stretch
 
 WORKDIR /casepro
 
-RUN apt-get-install.sh curl && curl -sL https://deb.nodesource.com/setup_4.x | bash && \
+RUN apt-get-install.sh curl && curl -sL https://deb.nodesource.com/setup_12.x | bash && \
     apt-get install nodejs -y && apt-get remove curl -y
 
 RUN echo "Downloading Casepro from https://github.com/rapidpro/casepro/archive/v1.3.8.tar.gz" && \
