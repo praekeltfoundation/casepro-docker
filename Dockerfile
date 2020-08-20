@@ -5,9 +5,10 @@ WORKDIR /casepro
 RUN apt-get-install.sh curl && curl -sL https://deb.nodesource.com/setup_12.x | bash && \
     apt-get install nodejs -y && apt-get remove curl -y
 
-RUN echo "Downloading Casepro from https://github.com/rapidpro/casepro/archive/v1.3.8.tar.gz" && \
+ARG CASEPRO_VERSION
+RUN echo "Downloading Casepro from https://github.com/rapidpro/casepro/archive/${CASEPRO_VERSION}.tar.gz" && \
     apt-get-install.sh wget  && \
-    wget -O casepro.tar.gz "https://github.com/rapidpro/casepro/archive/v1.3.8.tar.gz" && \
+    wget -O casepro.tar.gz "https://github.com/rapidpro/casepro/archive/${CASEPRO_VERSION}.tar.gz" && \
     tar -xf casepro.tar.gz --strip-components=1 && \
     rm casepro.tar.gz && \
     apt-get remove wget -y
