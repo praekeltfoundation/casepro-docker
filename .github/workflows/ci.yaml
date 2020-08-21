@@ -17,4 +17,4 @@ jobs:
           repository: praekeltfoundation/casepro-docker
           tag_with_ref: true
           tag_with_sha: true
-          build_args: CASEPRO_VERSION={tag}
+          build_args: CASEPRO_VERSION=${{tag}}
