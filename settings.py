@@ -20,7 +20,7 @@ SEND_EMAILS = True
 HOSTNAME = env.str('HOSTNAME', default='localhost:8000')
 SITE_HOST_PATTERN = env.str('SITE_HOST_PATTERN', default='http://%s.localhost:8000')
 
-SITE_API_HOST = env.url('SITE_API_HOST', default='http://localhost:8001/')
+SITE_API_HOST = env.str('SITE_API_HOST', default='http://localhost:8001/')
 
 SENTRY_DSN = env.str("SENTRY_DSN", default="")
 
@@ -74,7 +74,7 @@ if USE_DEFAULT_CACHE:
 # settings_common currently defines Nyaruka contact details. We use sentry.
 ADMINS = []
 
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default='*').split(",")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['*'])
 
 if SENTRY_DSN:
     INSTALLED_APPS += (
