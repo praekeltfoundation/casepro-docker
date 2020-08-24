@@ -11,6 +11,9 @@ RUN echo "Downloading Casepro from https://github.com/rapidpro/casepro/archive/$
     rm casepro.tar.gz && \
     apt-get remove wget -y
 
+COPY nginx.conf /etc/nginx/conf.d/django.conf
+RUN nginx; service nginx reload
+
 COPY setup.py ./setup.py
 COPY settings.py casepro/settings.py
 
