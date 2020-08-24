@@ -9,6 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1.1.0
         with:
@@ -17,4 +20,4 @@ jobs:
           repository: praekeltfoundation/casepro-docker
           tag_with_ref: true
           tag_with_sha: true
-          build_args: CASEPRO_VERSION=v1.3.8
+          build_args: CASEPRO_VERSION=${{ steps.get_version.outputs.VERSION}}
