@@ -58,7 +58,7 @@ CELERY_RESULT_BACKEND = BROKER_URL
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': '%s:%d' % (REDIS_HOST, REDIS_PORT),
+        'LOCATION': 'redis://%s/%d' % (REDIS_HOST, REDIS_PORT),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
