@@ -53,7 +53,7 @@ SITE_MAX_MESSAGE_CHARS = env.int('SITE_MAX_MESSAGE_CHARS', default=640)
 REDIS_HOST = env.str('REDIS_HOST', default='localhost:6379')
 REDIS_PORT = env.int('REDIS_PORT', default=15)
 
-BROKER_URL = 'redis://%s/%d' % (REDIS_HOST, REDIS_PORT)  # noqa TESTING defined in settings_common (flake8)
+CELERY_BROKER_URL = 'redis://%s/%d' % (REDIS_HOST, REDIS_PORT)  # noqa TESTING defined in settings_common (flake8)
 CELERY_RESULT_BACKEND = BROKER_URL
 CACHES = {
     'default': {
