@@ -67,6 +67,13 @@ CACHES = {
     }
 }
 
+# overwrite message-pull schedule to happen more frequently so that conversations flow better
+CELERYBEAT_SCHEDULE ["message-pull"]= {
+    "task": "dash.orgs.tasks.trigger_org_task",
+    "schedule": timedelta(seconds=30),
+    "args": ("casepro.msgs.tasks.pull_messages", "sync"),
+}
+
 USE_DEFAULT_CACHE = env.bool('USE_DEFAULT_CACHE', default=False)
 if USE_DEFAULT_CACHE:
     # Use Django's default cache
