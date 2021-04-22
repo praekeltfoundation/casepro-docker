@@ -26,6 +26,9 @@ RUN pip install -e . && \
 
 RUN apt-get remove git gcc libc-dev -y
 
+# to fix a broken migration in v1.1.18 
+RUN sed -i 's/name/__name__/g' casepro/statistics/migrations/0015_populate_is_squashed.py
+
 ENV PROJECT_ROOT /casepro/
 ENV DJANGO_SETTINGS_MODULE "casepro.settings"
 RUN django-admin collectstatic --noinput && \  
