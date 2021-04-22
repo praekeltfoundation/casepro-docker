@@ -17,10 +17,14 @@ RUN nginx; service nginx reload
 COPY setup.py ./setup.py
 COPY settings.py casepro/settings.py
 
+RUN apt-get-install.sh git gcc libc-dev
 RUN pip install -e . && \
+    pip install -r pip-requires.txt && \
     pip install -r pip-freeze.txt && \
     pip install django-environ && \
     npm install -g less coffee-script
+
+RUN apt-get remove git gcc libc-dev -y
 
 ENV PROJECT_ROOT /casepro/
 ENV DJANGO_SETTINGS_MODULE "casepro.settings"
