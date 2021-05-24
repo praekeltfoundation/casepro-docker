@@ -36,6 +36,7 @@ EMAIL_HOST = env.str('EMAIL_HOST', default='localhost')
 EMAIL_PORT = env.int('EMAIL_PORT', default=25)
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 
 SITE_BACKEND = os.environ.get('SITE_BACKEND', 'casepro.backend.NoopBackend')
 SITE_EXTERNAL_CONTACT_URL = os.environ.get('SITE_EXTERNAL_CONTACT_URL', 'http://localhost:8001/contact/read/%s/')
