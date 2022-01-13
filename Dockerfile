@@ -1,7 +1,5 @@
 FROM praekeltfoundation/django-bootstrap:py3.6-stretch
 
-EXPOSE 6379
-
 RUN apt-get-install.sh curl && curl -sL https://deb.nodesource.com/setup_12.x | bash && \
     apt-get install nodejs -y && apt-get remove curl -y
 
