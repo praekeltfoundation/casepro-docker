@@ -29,7 +29,6 @@ RUN poetry config virtualenvs.create false && \
 ENV PROJECT_ROOT /casepro/
 ENV DJANGO_SETTINGS_MODULE "casepro.settings"
 RUN poetry run python ./manage.py collectstatic --noinput
-ENV USE_DEFAULT_CACHE=True
-RUN poetry run python ./manage.py compress
+RUN  USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
 
 CMD ["casepro.wsgi:application", "--timeout", "1800"]
