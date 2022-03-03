@@ -71,7 +71,7 @@ CACHES = {
 # How often (in seconds) to sync messages with the backend
 MESSAGE_SYNC_INTERVAl = env.int('MESSAGE_SYNC_INTERVAl', default=60)
 # Overwrite message-pull schedule to use the above interval
-CELERYBEAT_SCHEDULE ["message-pull"]= {
+CELERY_BEAT_SCHEDULE ["message-pull"]= {
     "task": "dash.orgs.tasks.trigger_org_task",
     "schedule": timedelta(seconds=MESSAGE_SYNC_INTERVAl),
     "args": ("casepro.msgs.tasks.pull_messages", "sync"),
