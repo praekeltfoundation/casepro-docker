@@ -1,4 +1,4 @@
-FROM praekeltfoundation/django-bootstrap:py3.6-stretch
+FROM praekeltfoundation/django-bootstrap:py3.9-buster
 
 RUN apt-get-install.sh curl && curl -sL https://deb.nodesource.com/setup_12.x | bash && \
     apt-get install nodejs -y && apt-get remove curl -y
@@ -20,15 +20,14 @@ COPY settings.py casepro/settings.py
 
 RUN pip install --upgrade pip && pip install --upgrade poetry
 
-# Poetry creates a virtual environment, this tells it not to, as it is in a docker container
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-dev && \
+RUN poetry install --no-dev && \
     poetry add django-environ && \
     npm install -g less coffeescript
 
-ENV PROJECT_ROOT /casepro/
-ENV DJANGO_SETTINGS_MODULE "casepro.settings"
+ENV POETRY_PROJECT_ROOT /casepro/
+ENV POETRY_DJANGO_SETTINGS_MODULE="casepro.settings"
+
 RUN poetry run python ./manage.py collectstatic --noinput
-RUN  USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
+RUN POETRY_USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
 
 CMD ["casepro.wsgi:application", "--timeout", "1800"]

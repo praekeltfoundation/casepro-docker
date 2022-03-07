@@ -38,6 +38,8 @@ EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 
+DEFAULT_FROM_EMAIL= env.str('DEFAULT_FROM_EMAIL', default='webmaster@localhost')
+
 SITE_BACKEND = os.environ.get('SITE_BACKEND', 'casepro.backend.NoopBackend')
 SITE_EXTERNAL_CONTACT_URL = os.environ.get('SITE_EXTERNAL_CONTACT_URL', 'http://localhost:8001/contact/read/%s/')
 
@@ -71,7 +73,7 @@ CACHES = {
 # How often (in seconds) to sync messages with the backend
 MESSAGE_SYNC_INTERVAl = env.int('MESSAGE_SYNC_INTERVAl', default=60)
 # Overwrite message-pull schedule to use the above interval
-CELERYBEAT_SCHEDULE ["message-pull"]= {
+CELERY_BEAT_SCHEDULE ["message-pull"]= {
     "task": "dash.orgs.tasks.trigger_org_task",
     "schedule": timedelta(seconds=MESSAGE_SYNC_INTERVAl),
     "args": ("casepro.msgs.tasks.pull_messages", "sync"),
