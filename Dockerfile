@@ -31,4 +31,4 @@ RUN poetry run python ./manage.py collectstatic --noinput
 RUN USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
 RUN . $(poetry env info --path)/bin/activate
 
-CMD ["casepro.wsgi:application", "--timeout", "1800"]
+ENTRYPOINT [ "poetry shell && django-entrypoint.sh" ]
