@@ -31,5 +31,8 @@ RUN poetry run python ./manage.py collectstatic --noinput
 RUN USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
 RUN . $(poetry env info --path)/bin/activate
 
-# CMD ["poetry", "run", "gunicorn", "casepro.wsgi:application", "--timeout", "1800"]
-ENTRYPOINT [ "poetry shell && /scripts/django-entrypoint.sh" ]
+RUN cp /scripts/django-entrypoint.sh ./django-entrypoint.sh
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+ENTRYPOINT [ "./entrypoint.sh" ]
