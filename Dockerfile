@@ -19,7 +19,7 @@ COPY setup.py ./setup.py
 COPY settings.py casepro/settings.py
 
 RUN pip install --upgrade pip && pip install --upgrade poetry
-
+ENV POETRY_VIRTUALENVS_PATH="venv"
 RUN poetry install --no-dev && \
     poetry add django-environ && \
     npm install -g less coffeescript
@@ -29,5 +29,6 @@ ENV DJANGO_SETTINGS_MODULE "casepro.settings"
 
 RUN poetry run python ./manage.py collectstatic --noinput
 RUN USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
+RUN . $(poetry env info --path)/bin/activate
 
 CMD ["casepro.wsgi:application", "--timeout", "1800"]
