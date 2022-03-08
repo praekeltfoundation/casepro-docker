@@ -29,7 +29,6 @@ ENV DJANGO_SETTINGS_MODULE "casepro.settings"
 
 RUN poetry run python ./manage.py collectstatic --noinput
 RUN USE_DEFAULT_CACHE=True poetry run python ./manage.py compress
-RUN . $(poetry env info --path)/bin/activate
 
 RUN cp /scripts/django-entrypoint.sh ./django-entrypoint.sh
 COPY entrypoint.sh ./entrypoint.sh
