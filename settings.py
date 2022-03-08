@@ -92,11 +92,3 @@ if USE_DEFAULT_CACHE:
 ADMINS = []
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['*'])
-
-if SENTRY_DSN:
-    INSTALLED_APPS += (
-        'raven.contrib.django.raven_compat',
-    )
-    RAVEN_CONFIG = {
-        'dsn': SENTRY_DSN,
-    }
