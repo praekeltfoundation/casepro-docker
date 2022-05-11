@@ -50,6 +50,7 @@ SITE_CASE_RESPONSE_REQUIRED_TIME = env.int(
 SITE_HIDE_CONTACT_FIELDS = ["name"]
 SITE_CONTACT_DISPLAY = env.str('SITE_CONTACT_DISPLAY',
                                default='name')
+SITE_REDACT_URNS = env.bool('SITE_REDACT_URNS', default=True)
 SITE_MAX_MESSAGE_CHARS = env.int('SITE_MAX_MESSAGE_CHARS', default=640)
 # the max value for this is 800
 
