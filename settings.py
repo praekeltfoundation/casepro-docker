@@ -19,7 +19,7 @@ SEND_EMAILS = True
 
 HOSTNAME = env.str('HOSTNAME', default='localhost:8000')
 SITE_HOST_PATTERN = env.str('SITE_HOST_PATTERN', default='http://%s.localhost:8000')
-CSRF_TRUSTED_ORIGINS = SITE_HOST_PATTERN % ("*")
+CSRF_TRUSTED_ORIGINS = [SITE_HOST_PATTERN % ("*")]
 
 SITE_API_HOST = env.str('SITE_API_HOST', default='http://localhost:8001/')
 
